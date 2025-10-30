@@ -1,0 +1,75 @@
+#include <stdio.h>
+
+int main(){
+    int T;
+    scanf("%d",&T);
+    while (T--)
+    {
+    
+    int n;
+    scanf("%d",&n);
+
+    int height = n;    //沙漏的层数就是高
+    int width = n-1;    //沙漏的宽是层数-1
+
+    for(int i = 0; i<width; i++){
+        printf("-");    //打印沙漏上底
+    }
+    printf("\n");
+
+    for(int i= 0; i < height/2-1; i++){    //作出沙漏上半部分
+        for(int j = 0; j< i; j++){
+            printf(" ");    //作出沙漏左壁前的空格
+        }
+        printf("\\");    //作出沙漏左璧
+
+            int innerwidth = width - 2*(i+1);    //计算沙漏里面容量的宽度
+
+            if(i==0){
+                for(int j = 0;j<innerwidth;j++){
+                    printf(" ");    //沙漏第一行为空
+                }
+            }
+            else{
+                for (int j = 0; j<innerwidth; j++){
+                    printf("*");    //作出沙漏上半部分里面的沙子
+                }
+            }
+        printf("/\n");    //作出沙漏上半部分的右壁
+    }
+
+    for(int i = height/2-2; i >=0; i--){    //此循环为沙漏下半部分除了底以外，令下半部分第一行为1
+        for(int j = 0; j < i; j++){
+            printf(" ");    //作出沙漏左璧前的空格
+        }
+        printf("/");    //作出沙漏下半部分左璧
+
+        int innerwidth = width - 2*(i+1);    //计算沙漏里面容量的宽度
+        int half = innerwidth/2;
+        
+        if (i <= height / 2 - 2)    //if 语句在这里起到了控制图形不同部分绘制逻辑的关键作用
+            {
+                int half = innerwidth / 2;
+                for (int j = 0; j < half; j++)
+                {
+                    printf(" ");    //沙子前的空格
+                }
+                printf("*");    //沙子
+                for (int j = 0; j < half; j++)
+                {
+                    printf(" ");    //沙子后的空格
+                }
+                
+            }
+        printf("\\\n");}    //作出右壁，并且确保在循环外
+    
+    for(int i = 0; i < width; i++){
+        printf("-");    //作出下底
+    }
+
+    printf("\n\n");    //按照题目要求，留出空行
+
+    return 0;
+
+}
+}
