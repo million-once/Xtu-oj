@@ -1,18 +1,25 @@
+//1：先作上层那个三角形
+//2：※原来C语言知道ABC 不需要我去定义和排序
+//3：将字母转化为以A为1，递增的数字
+//4：※确定空格与三角形的高度、行数的关系【难点】
+//5：※写出一个可以连续读取字符的while循环，了解了EOF【难点】
+//6：※学会跳过换行符，避免识别【易错点】
+
 #include <stdio.h>
 
 int main() {
     char ch;
-    while(scanf("%c",&ch)!=EOF){
+    while(scanf("%c",&ch)!=EOF){    //不断地从输入中读取字符，只要没有遇到文件结束符，就继续循环
     char letter;
 
-    if(ch == '\n' || ch == ' ' || ch == '\t') {
+    if(ch == '\n' || ch == ' ' || ch == '\t') {    //输入缓冲区中的换行符，跳过换行符（跳过空白字符），避免识别了\n
             continue;
         }
 
-    int num = ch - 'A' + 1;
+    int num = ch - 'A' + 1;    //给对应字符排序，A为1，以此递增
     int height = num*2;
 
-    if (num == 1)
+    if (num == 1)    //A的情况特殊，只有最上面的三角形
     {
         printf(" A\n");
         printf("A A\n");
@@ -22,7 +29,7 @@ int main() {
     else{
     for (int j = 0; j < height-1; j++)
     {
-        printf(" ");
+        printf(" ");    //作出上层三角形的前导空格
     }
     printf("A\n");    //第一行
 
@@ -45,12 +52,12 @@ int main() {
 
     for (int i = 0; i < num-1; i++)
     {
-        printf(" ");
+        printf(" ");    //作出下层的第一层A的前导空格
     }
     printf("A");
     for (int i = 0; i < height-1; i++)
     {
-        printf(" ");
+        printf(" ");    //作出后面几层的前导空格
     }
     printf("A\n");
 
@@ -70,7 +77,7 @@ int main() {
         }
         for (int j = height-i*2-1; j > 0; j--)
         {
-            printf(" ");
+            printf(" ");    //两个三角形之间的空格
         }
         for (letter = 'A'; letter < 'A'+i+1; letter++)
         {
