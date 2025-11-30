@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char s[1001];
+    
+    while (scanf("%s", s) != EOF) {
+        int n = strlen(s);
+        char result[1001];
+        int count[26] = {0}; // 记录每个字符的出现次数
+        int first_reach[26] = {0}; // 记录每个字符第一次达到当前次数的位置
+        
+        for (int i = 0; i < n; i++) {
+            // 更新当前字符的计数
+            count[s[i] - 'a']++;
+            
+            // 找出出现次数最多的字符
+            int max_count = 0;
+            for (int j = 0; j < 26; j++) {
+                if (count[j] > max_count) {
+                    max_count = count[j];
+                }
+            }
+            
+            // 找出所有达到最大次数的字符
+            char candidates[26];
+            int candidate_count = 0;
+            for (int j = 0; j < 26; j++) {
+                if (count[j] == max_count) {
+                    candidates[candidate_count++] = 'a' + j;
+                }
+            }
+            
+            // 如果只有一个候选字符，直接选择
+            if (candidate_count == 1) {
+                result[i] = candidates[0];
+            } else {
+                // 多个字符次数相同，找出最早达到这个次数的字符
+                char earliest_char = candidates[0];
+                int earliest_pos = n; // 初始化为一个较大的值
+                
+                for (int j = 0; j < candidate_count; j++) {
+                    char c = candidates[j];
+                    // 找到该字符第一次达到当前次数的位置
+                    int current_count = count[c - 'a'];
+                    int pos = 0;
+                    int temp_count = 0;
+                    
+                    for (int k = 0; k <= i; k++) {
+                        if (s[k] == c) {
+                            temp_count++;
+                            if (temp_count == current_count) {
+                                pos = k;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (pos < earliest_pos) {
+                        earliest_pos = pos;
+                        earliest_char = c;
+                    }
+                }
+                
+                result[i] = earliest_char;
+            }
+        }
+        
+        result[n] = '\0';
+        printf("%s\n", result);
+    }
+    
+    return 0;
+}
