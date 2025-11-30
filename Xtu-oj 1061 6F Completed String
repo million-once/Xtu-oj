@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main() {
+    char s[1001];
+    
+    while (scanf("%s", s) != EOF) {
+        int n = strlen(s);
+        int letters[26] = {0}; // 记录每个字母是否出现
+        int count = 0; // 记录已出现的不同字母数量
+        
+        for (int i = 0; i < n; i++) {
+            // 将字符转换为小写
+            char c = tolower(s[i]);
+            
+            // 如果是字母且尚未记录
+            if (c >= 'a' && c <= 'z' && !letters[c - 'a']) {
+                letters[c - 'a'] = 1;
+                count++;
+                
+                // 如果已经收集到所有26个字母，提前结束
+                if (count == 26) {
+                    break;
+                }
+            }
+        }
+        
+        // 检查是否所有26个字母都出现了
+        if (count == 26) {
+            printf("Yes\n");
+        } else {
+            printf("No\n");
+        }
+    }
+    
+    return 0;
+}
