@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <string.h>
+
+// 检查从start到end的子串是否为回文
+int is_palindrome(char *s, int start, int end) {
+    while (start < end) {
+        if (s[start] != s[end]) {
+            return 0;
+        }
+        start++;
+        end--;
+    }
+    return 1;
+}
+
+int main() {
+    int T;
+    scanf("%d", &T);
+    
+    while (T--) {
+        char s[1001];
+        scanf("%s", s);
+        int n = strlen(s);
+        
+        // 找到最小的添加字符数
+        // 思路：从字符串开头开始，找到第一个位置i，使得s[i...n-1]是回文
+        // 那么需要添加的字符数就是i（即把s[0...i-1]反转添加到末尾）
+        int i;
+        for (i = 0; i < n; i++) {
+            if (is_palindrome(s, i, n - 1)) {
+                break;
+            }
+        }
+        
+        printf("%d\n", i);
+    }
+    
+    return 0;
+}
