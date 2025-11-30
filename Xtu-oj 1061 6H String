@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main() {
+    int T;
+    scanf("%d", &T);
+    
+    while (T--) {
+        char str[10001];  // 修正为10001以容纳10000个字符加上结束符
+        char charset[27]; // 字符集最多26个字符加上结束符
+        
+        scanf("%s", str);
+        scanf("%s", charset);
+        
+        int len = strlen(str);
+        int charset_map[26] = {0};
+        
+        // 构建字符集映射
+        for (int i = 0; i < strlen(charset); i++) {
+            if (isalpha(charset[i])) {
+                charset_map[charset[i] - 'a'] = 1;
+            }
+        }
+        
+        int max_len = 0;
+        int current_len = 0;
+        
+        // 遍历字符串，寻找最长连续子串
+        for (int i = 0; i < len; i++) {
+            if (charset_map[str[i] - 'a']) {
+                current_len++;
+            } else {
+                if (current_len > max_len) {
+                    max_len = current_len;
+                }
+                current_len = 0;
+            }
+        }
+        
+        // 检查最后一个子串
+        if (current_len > max_len) {
+            max_len = current_len;
+        }
+        
+        printf("%d\n", max_len);
+    }
+    
+    return 0;
+}
