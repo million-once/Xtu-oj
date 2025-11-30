@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+// 比较函数，用于qsort
+int compare(const void *a, const void *b) {
+    return (*(char*)a - *(char*)b);
+}
+
+int main() {
+    char s1[21], s2[21];
+    
+    while (scanf("%s %s", s1, s2) != EOF) {
+        int len1 = strlen(s1);
+        int len2 = strlen(s2);
+        
+        // 情况1: 两个字符串完全相同
+        if (strcmp(s1, s2) == 0) {
+            printf("Equal\n");
+            continue;
+        }
+        
+        // 情况2: 长度不同，肯定不能纠错
+        if (len1 != len2) {
+            printf("No\n");
+            continue;
+        }
+        
+        // 情况3: 首尾字母不同，不能纠错
+        if (s1[0] != s2[0] || s1[len1-1] != s2[len2-1]) {
+            printf("No\n");
+            continue;
+        }
+        
+        // 情况4: 检查中间部分排序后是否相同
+        // 提取中间部分（去掉首尾）
+        char mid1[20], mid2[20];
+        strncpy(mid1, s1+1, len1-2);
+        strncpy(mid2, s2+1, len2-2);
+        mid1[len1-2] = '\0';
+        mid2[len2-2] = '\0';
+        
+        // 对中间部分排序
+        qsort(mid1, len1-2, sizeof(char), compare);
+        qsort(mid2, len2-2, sizeof(char), compare);
+        
+        // 比较排序后的中间部分
+        if (strcmp(mid1, mid2) == 0) {
+            printf("Yes\n");
+        } else {
+            printf("No\n");
+        }
+    }
+    
+    return 0;
+}
