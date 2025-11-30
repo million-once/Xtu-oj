@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+// 循环左移函数
+void leftRotate(char* str, int n, int k) {
+    k = k % n;
+    if (k == 0) return;
+    
+    char* temp = (char*)malloc(k * sizeof(char));
+    // 保存前k个字符
+    for (int i = 0; i < k; i++) {
+        temp[i] = str[i];
+    }
+    // 左移剩余字符
+    for (int i = k; i < n; i++) {
+        str[i - k] = str[i];
+    }
+    // 将保存的字符放到末尾
+    for (int i = 0; i < k; i++) {
+        str[n - k + i] = temp[i];
+    }
+    free(temp);
+}
+
+// 循环右移函数
+void rightRotate(char* str, int n, int k) {
+    k = k % n;
+    if (k == 0) return;
+    
+    char* temp = (char*)malloc(k * sizeof(char));
+    // 保存后k个字符
+    for (int i = 0; i < k; i++) {
+        temp[i] = str[n - k + i];
+    }
+    // 右移剩余字符
+    for (int i = n - k - 1; i >= 0; i--) {
+        str[i + k] = str[i];
+    }
+    // 将保存的字符放到开头
+    for (int i = 0; i < k; i++) {
+        str[i] = temp[i];
+    }
+    free(temp);
+}
+
+int main() {
+    int T;
+    scanf("%d", &T);
+    
+    for (int i = 1; i <= T; i++) {
+        int n, m;
+        scanf("%d %d", &n, &m);
+        
+        // 创建初始字符串
+        char* str = (char*)malloc((n + 1) * sizeof(char));
+        for (int j = 0; j < n; j++) {
+            str[j] = 'A' + j;
+        }
+        str[n] = '\0';
+        
+        printf("#%d:\n", i);
+        
+        // 处理每个操作
+        for (int j = 0; j < m; j++) {
+            int c;
+            scanf("%d", &c);
+            
+            if (c < 0) {
+                // 循环左移
+                leftRotate(str, n, -c);
+            } else if (c > 0) {
+                // 循环右移
+                rightRotate(str, n, c);
+            }
+            // c == 0 时不移动
+            
+            printf("%s\n", str);
+        }
+        
+        free(str);
+    }
+    
+    return 0;
+}
