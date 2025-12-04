@@ -1,0 +1,47 @@
+//1；看到分子分母互质，就要想到求最大公约数
+//2：连分式，找递推关系，列出循环
+//3：※递推：An+1=a/（b+An）；A1=a/b；将An的分子分母拆开，求分子分母的递推 x2 = a*y1, y2 = b*y1 + x1【难点】
+//4：循环，从外向内和从内向外都可以，但我一开始想的是从外向内
+
+#include <stdio.h>
+
+long long gcd(long a, long b) {    //辗转相除法求最大公约数
+    while (b != 0) {    //除数不等于0
+        long long r = a % b;    //求余
+        a = b;
+        b = r;
+    }
+    return a;
+}
+
+int main(){
+    int T;
+    scanf("%d",&T);
+
+    while (T--)
+    {
+        int a,b,n;
+        scanf("%d %d %d",&a,&b,&n);
+        long long con=a,den=b;    //初始值，A1 = a/b
+
+        for (int i = 1; i < n; i++)    //循环n-1次，因为把a/b设为了初始值
+        {
+            long long new_con = a * den;    //设个中间量，防止分子分母的前一个值被替换
+            long long new_den = b*den + con;
+
+            den = new_den;
+            con = new_con;
+
+        }
+        
+        long long c = gcd(con,den);
+
+        con = con / c;    //化简
+        den = den / c;
+
+        printf("%lld/%lld\n",con,den);
+        
+    }
+    
+    return 0;
+}
